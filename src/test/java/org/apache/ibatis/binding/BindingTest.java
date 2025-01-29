@@ -45,6 +45,7 @@ import org.apache.ibatis.domain.blog.Post;
 import org.apache.ibatis.domain.blog.Section;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.executor.result.DefaultResultHandler;
+import org.apache.ibatis.logging.stdout.StdOutImpl;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.RowBounds;
@@ -69,6 +70,7 @@ class BindingTest {
     TransactionFactory transactionFactory = new JdbcTransactionFactory();
     Environment environment = new Environment("Production", transactionFactory, dataSource);
     Configuration configuration = new Configuration(environment);
+    configuration.setLogImpl(StdOutImpl.class);
     configuration.setLazyLoadingEnabled(true);
     configuration.setUseActualParamName(false); // to test legacy style reference (#{0} #{1})
     configuration.getTypeAliasRegistry().registerAlias(Blog.class);
@@ -89,7 +91,7 @@ class BindingTest {
       assertEquals(101, b.getAuthor().getId());
       assertEquals("jim", b.getAuthor().getUsername());
       assertEquals("********", b.getAuthor().getPassword());
-      assertEquals(2, b.getPosts().size());
+      assertEquals(2, b.getPostList().size());
     }
   }
 
@@ -349,7 +351,7 @@ class BindingTest {
       assertEquals(1, blog.getId());
       assertEquals("Jim Business", blog.getTitle());
       assertNotNull(blog.getAuthor(), "author should not be null");
-      List<Post> posts = blog.getPosts();
+      List<Post> posts = blog.getPostList();
       assertTrue(posts != null && !posts.isEmpty(), "posts should not be empty");
     }
   }
@@ -362,7 +364,7 @@ class BindingTest {
       assertEquals(1, blog.getId());
       assertEquals("Jim Business", blog.getTitle());
       assertNotNull(blog.getAuthor(), "author should not be null");
-      List<Post> posts = blog.getPosts();
+      List<Post> posts = blog.getPostList();
       assertTrue(posts != null && !posts.isEmpty(), "posts should not be empty");
     }
   }
@@ -380,7 +382,7 @@ class BindingTest {
       assertEquals("jim@ibatis.apache.org", author.getEmail());
       assertEquals("jim", author.getUsername());
       assertEquals(Section.NEWS, author.getFavouriteSection());
-      List<Post> posts = blog.getPosts();
+      List<Post> posts = blog.getPostList();
       assertNotNull(posts, "posts should not be empty");
       assertEquals(2, posts.size());
     }
@@ -395,7 +397,7 @@ class BindingTest {
       assertEquals(1, blog.getId());
       assertEquals("Jim Business", blog.getTitle());
       assertNotNull(blog.getAuthor(), "author should not be null");
-      List<Post> posts = blog.getPosts();
+      List<Post> posts = blog.getPostList();
       assertTrue(posts != null && !posts.isEmpty(), "posts should not be empty");
     }
   }
@@ -408,7 +410,7 @@ class BindingTest {
       assertEquals(1, blog.getId());
       assertEquals("Jim Business", blog.getTitle());
       assertNotNull(blog.getAuthor(), "author should not be null");
-      List<Post> posts = blog.getPosts();
+      List<Post> posts = blog.getPostList();
       assertTrue(posts != null && !posts.isEmpty(), "posts should not be empty");
     }
   }
@@ -615,12 +617,12 @@ class BindingTest {
       assertEquals(2, blogs.size());
       assertTrue(blogs.get(0) instanceof Proxy);
       assertEquals(101, blogs.get(0).getAuthor().getId());
-      assertEquals(1, blogs.get(0).getPosts().size());
-      assertEquals(1, blogs.get(0).getPosts().get(0).getId());
+      assertEquals(1, blogs.get(0).getPostList().size());
+      assertEquals(1, blogs.get(0).getPostList().get(0).getId());
       assertTrue(blogs.get(1) instanceof Proxy);
       assertEquals(102, blogs.get(1).getAuthor().getId());
-      assertEquals(1, blogs.get(1).getPosts().size());
-      assertEquals(2, blogs.get(1).getPosts().get(0).getId());
+      assertEquals(1, blogs.get(1).getPostList().size());
+      assertEquals(2, blogs.get(1).getPostList().get(0).getId());
     }
   }
 
@@ -632,12 +634,12 @@ class BindingTest {
       assertEquals(2, blogs.size());
       assertFalse(blogs.get(0) instanceof Factory);
       assertEquals(101, blogs.get(0).getAuthor().getId());
-      assertEquals(1, blogs.get(0).getPosts().size());
-      assertEquals(1, blogs.get(0).getPosts().get(0).getId());
+      assertEquals(1, blogs.get(0).getPostList().size());
+      assertEquals(1, blogs.get(0).getPostList().get(0).getId());
       assertFalse(blogs.get(1) instanceof Factory);
       assertEquals(102, blogs.get(1).getAuthor().getId());
-      assertEquals(1, blogs.get(1).getPosts().size());
-      assertEquals(2, blogs.get(1).getPosts().get(0).getId());
+      assertEquals(1, blogs.get(1).getPostList().size());
+      assertEquals(2, blogs.get(1).getPostList().get(0).getId());
     }
   }
 

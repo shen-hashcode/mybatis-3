@@ -203,7 +203,7 @@ public interface BoundBlogMapper {
   })
   @Results({
       @Result(property = "author", column = "author_id", one = @One(select = "org.apache.ibatis.binding.BoundAuthorMapper.selectAuthor")),
-      @Result(property = "posts", column = "id", many = @Many(select = "selectPostsById"))
+      @Result(property = "postList", column = "id", many = @Many(select = "selectPostsById"))
   })
   List<Blog> selectBlogsWithAutorAndPosts();
 

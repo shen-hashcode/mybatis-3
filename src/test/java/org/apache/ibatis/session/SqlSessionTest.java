@@ -327,8 +327,8 @@ class SqlSessionTest extends BaseDataTest {
     try (SqlSession session = sqlMapper.openSession()) {
       Blog blog = session.selectOne("org.apache.ibatis.domain.blog.mappers.BlogMapper.selectBlogWithPostsUsingSubSelect", 1);
       assertEquals("Jim Business", blog.getTitle());
-      assertEquals(2, blog.getPosts().size());
-      assertEquals("Corn nuts", blog.getPosts().get(0).getSubject());
+      assertEquals(2, blog.getPostList().size());
+      assertEquals("Corn nuts", blog.getPostList().get(0).getSubject());
       assertEquals(101, blog.getAuthor().getId());
       assertEquals("jim", blog.getAuthor().getUsername());
     }
@@ -340,8 +340,8 @@ class SqlSessionTest extends BaseDataTest {
       Blog blog = session.selectOne("org.apache.ibatis.domain.blog.mappers.BlogMapper.selectBlogWithPostsUsingSubSelectLazily", 1);
       Assertions.assertTrue(blog instanceof Proxy);
       assertEquals("Jim Business", blog.getTitle());
-      assertEquals(2, blog.getPosts().size());
-      assertEquals("Corn nuts", blog.getPosts().get(0).getSubject());
+      assertEquals(2, blog.getPostList().size());
+      assertEquals("Corn nuts", blog.getPostList().get(0).getSubject());
       assertEquals(101, blog.getAuthor().getId());
       assertEquals("jim", blog.getAuthor().getUsername());
     }
@@ -357,10 +357,10 @@ class SqlSessionTest extends BaseDataTest {
       assertEquals(101, author.getId());
       assertEquals("jim", author.getUsername());
 
-      final List<Post> posts = blog.getPosts();
+      final List<Post> posts = blog.getPostList();
       assertEquals(2, posts.size());
 
-      final Post post = blog.getPosts().get(0);
+      final Post post = blog.getPostList().get(0);
       assertEquals(1, post.getId());
       assertEquals("Corn nuts", post.getSubject());
 
@@ -373,8 +373,8 @@ class SqlSessionTest extends BaseDataTest {
       final Comment comment = comments.get(0);
       assertEquals(1, comment.getId());
 
-      assertEquals(DraftPost.class, blog.getPosts().get(0).getClass());
-      assertEquals(Post.class, blog.getPosts().get(1).getClass());
+      assertEquals(DraftPost.class, blog.getPostList().get(0).getClass());
+      assertEquals(Post.class, blog.getPostList().get(1).getClass());
     }
   }
 
@@ -388,10 +388,10 @@ class SqlSessionTest extends BaseDataTest {
       assertEquals(101, author.getId());
       assertEquals("jim", author.getUsername());
 
-      final List<Post> posts = blog.getPosts();
+      final List<Post> posts = blog.getPostList();
       assertEquals(2, posts.size());
 
-      final Post post = blog.getPosts().get(0);
+      final Post post = blog.getPostList().get(0);
       assertEquals(1, post.getId());
       assertEquals("Corn nuts", post.getSubject());
 
@@ -404,8 +404,8 @@ class SqlSessionTest extends BaseDataTest {
       final Comment comment = comments.get(0);
       assertEquals(1, comment.getId());
 
-      assertEquals(DraftPost.class, blog.getPosts().get(0).getClass());
-      assertEquals(Post.class, blog.getPosts().get(1).getClass());
+      assertEquals(DraftPost.class, blog.getPostList().get(0).getClass());
+      assertEquals(Post.class, blog.getPostList().get(1).getClass());
     }
   }
 

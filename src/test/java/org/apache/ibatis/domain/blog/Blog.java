@@ -22,17 +22,17 @@ public class Blog {
   private int id;
   private String title;
   private Author author;
-  private List<Post> posts;
+  private List<Post> postList;
 
   public Blog() {
   }
 
-  public Blog(int id, String title, Author author, List<Post> posts) {
+  public Blog(int id, String title, Author author, List<Post> postList) {
     this();
     this.id = id;
     this.title = title;
     this.author = author;
-    this.posts = posts;
+    this.postList = postList;
   }
 
   public int getId() {
@@ -59,12 +59,12 @@ public class Blog {
     this.author = author;
   }
 
-  public List<Post> getPosts() {
-    return posts;
+  public List<Post> getPostList() {
+    return postList;
   }
 
-  public void setPosts(List<Post> posts) {
-    this.posts = posts;
+  public void setPostList(List<Post> posts) {
+    this.postList = posts;
   }
 
   @Override

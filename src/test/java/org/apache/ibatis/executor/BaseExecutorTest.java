@@ -406,9 +406,9 @@ class BaseExecutorTest extends BaseDataTest {
       List<Blog> blogs = executor.query(selectBlog, 1, RowBounds.DEFAULT, Executor.NO_RESULT_HANDLER);
       executor.flushStatements();
       assertEquals(1, blogs.size());
-      assertNotNull(blogs.get(0).getPosts());
-      assertEquals(2, blogs.get(0).getPosts().size());
-      assertEquals(1, blogs.get(0).getPosts().get(1).getBlog().getPosts().get(1).getBlog().getId());
+      assertNotNull(blogs.get(0).getPostList());
+      assertEquals(2, blogs.get(0).getPostList().size());
+      assertEquals(1, blogs.get(0).getPostList().get(1).getBlog().getPostList().get(1).getBlog().getId());
       executor.rollback(true);
     } finally {
       executor.rollback(true);
